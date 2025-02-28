@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagar Attri - Portfolio</title>
+    <style>
+        /* Base styles and reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Progress indicator */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #3a86ff, #8338ec);
+            transition: width 0.3s ease;
+        }
+        
+        /* Sticky navigation */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-item {
+            text-decoration: none;
+            color: #495057;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #212529;
+            color: white;
+        }
+        
+        /* Main content area - now vertical */
+        section {
+            min-height: 100vh;
+            width: 100%;
+            padding: 120px 10vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Section background colors */
+        #home {
+            background: linear-gradient(120deg, #f8f9fa, #e9ecef);
+        }
+        
+        #projects {
+            background: linear-gradient(120deg, #f1f3f5, #e3f2fd);
+        }
+        
+        #about {
+            background: linear-gradient(120deg, #f5f5f5, #e8eaf6);
+        }
+        
+        #contact {
+            background: linear-gradient(120deg, #f8f9fa, #ede7f6);
+        }
+        
+        /* Hero section styles */
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 600px;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            position: relative;
+        }
+        
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 6px;
+            background: linear-gradient(90deg, #3a86ff, #8338ec);
+            border-radius: 3px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 500px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: #212529;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #343a40;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #212529;
+            border: 2px solid #212529;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(33, 37, 41, 0.05);
+            transform: translateY(-3px);
+        }
+        
+        /* Projects grid with hover effects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+        
+        .project-content {
+            padding: 20px;
+        }
+        
+        .project-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            background: #212529;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .project-desc {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        /* About section with clean layout */
+        .about-container {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            margin-top: 40px;
+        }
+        
+        .about-image {
+            width: 300px;
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .about-content {
+            max-width: 500px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3a86ff, #8338ec);
+            border-radius: 2px;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .skill-tag {
+            padding: 8px 16px;
+            background: #e9ecef;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Simple but elegant contact form */
+        .contact-form {
+            max-width: 500px;
+            margin-top: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #8338ec;
+        }
+        
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding-top: 60px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #212529;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px);
+            background: #3a86ff;
+        }
+        
+        /* Side navigation dots */
+        .scroll-indicator {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .scroll-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dee2e6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .scroll-dot.active {
+            background: #212529;
+            transform: scale(1.4);
+        }
+        
+        /* Education section */
+        .education-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .education-item:last-child {
+            border-bottom: none;
+        }
+        
+        .education-degree {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .education-school {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .education-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #212529;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: #3a86ff;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-container {
+                flex-direction: column;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .navbar {
+                top: initial;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+            
+            .scroll-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#home" class="nav-item active">Home</a>
+        <a href="#projects" class="nav-item">Projects</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#contact" class="nav-item">Contact</a>
+    </nav>
+    
+    <!-- Scroll indicator dots -->
+    <div class="scroll-indicator">
+        <div class="scroll-dot active" data-section="home"></div>
+        <div class="scroll-dot" data-section="projects"></div>
+        <div class="scroll-dot" data-section="about"></div>
+        <div class="scroll-dot" data-section="contact"></div>
+    </div>
+    
+    <!-- Back to top button -->
+    <a href="#home" class="back-to-top" id="backToTop">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </a>
+    
+    <!-- Home Section -->
+    <section id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Exploring Tech Innovations</h1>
+            <p class="hero-subtitle">Hi, I'm Sagar Attri. A first-year CSE student passionate about startups, AI automation, and web development, creating innovative solutions through technology.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View My Projects</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+                <a href="#" class="social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                    </svg>
+                </a>
+                <a href="#" class="social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                </a>
+                <a href="#" class="social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-tag">Tech Community</div>
+                <div class="project-image">
+                    <img src="/api/placeholder/400/320" alt="Oofy Programmers">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Oofy Programmers</h3>
+                    <p class="project-desc">Founded and managed a community for technical enthusiasts to connect and collaborate, organizing discussions and knowledge-sharing sessions.</p>
+                    <a href="#" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-tag">Web Development</div>
+                <div class="project-image">
+                    <img src="/api/placeholder/400/320" alt="AI-Generated Websites">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">AI-Generated Websites</h3>
+                    <p class="project-desc">Experimented with AI-generated website development, refining and customizing elements manually to create functional and aesthetically pleasing designs.</p>
+                    <a href="#" class="btn btn-secondary">View Project</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-tag">Web Application</div>
+                <div class="project-image">
+                    <img src="/api/placeholder/400/320" alt="Anonymous Chat Platform">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Anonymous Chat Platform</h3>
+                    <p class="project-desc">Built a chat platform using AI-generated code with significant manual refinements, focusing on user experience and functionality.</p>
+                    <a href="#" class="btn btn-secondary">Visit Site</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-container">
+            <div class="about-image">
+                <img src="/api/placeholder/400/600" alt="Sagar Attri">
+            </div>
+            <div class="about-content">
+                <p>I'm a first-year Computer Science Engineering student at Greater Noida Institute of Technology with a passion for startups and exploring new technologies.</p>
+                <p>I enjoy learning new skills and working on creative projects across various domains. My interests span from UI/UX design and AI automation to web development and programming.</p>
+                <p>Outside of academics, I participate in hackathons and community-driven tech events. I secured 2nd place in a Standup Comedy Competition during 12th grade and have participated in the Green Olympiad.</p>
+                
+                <h3 style="margin-top: 25px; margin-bottom: 15px;">Education</h3>
+                <div class="education-item">
+                    <div class="education-degree">B.Tech in Computer Science Engineering</div>
+                    <div class="education-school">Greater Noida Institute of Technology</div>
+                    <div class="education-date">2024 - Present</div>
+                </div>
+                <div class="education-item">
+                    <div class="education-degree">12th Grade</div>
+                    <div class="education-school">RB DAV Sr. Sec Public School</div>
+                    <div class="education-date">2023 - 2024</div>
+                    <div>Passed with 89%</div>
+                </div>
+                
+                <div class="skill-tags">
+                    <span class="skill-tag">Web Development</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">AI Automation</span>
+                    <span class="skill-tag">UI/UX</span>
+                    <span class="skill-tag">Leadership</span>
+                    <span class="skill-tag">Team Work</span>
+                    <span class="skill-tag">Critical Thinking</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p>Interested in collaborating on a project or just want to connect? Feel free to reach out.</p>
+        <div class="contact-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Your email address">
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" class="form-control" placeholder="Tell me about your ideas or opportunities..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <h3 style="margin-bottom: 15px;">Contact Information</h3>
+            <p><strong>Phone:</strong> 9914972793</p>
+            <p><strong>Email:</strong> attri.sagar07@gmail.com</p>
+            <p><strong>Location:</strong> Greater Noida, UP</p>
+            <p><strong>Languages:</strong> English (Fluent), Hindi (Fluent), Punjabi (Fluent)</p>
+        </div>
+    </section>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('section');
+            const progressBar = document.getElementById('progressBar');
+            const scrollDots = document.querySelectorAll('.scroll-dot');
+            const backToTop = document.getElementById('backToTop');
+            
+            // Function to get current active section based on scroll position
+            function getActiveSection() {
+                let currentSection = '';
+                const scrollPosition = window.scrollY;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if(scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                return currentSection;
+            }
+            
+            // Update UI based on current section
+            function updateUI() {
+                const currentSection = getActiveSection();
+                const sectionIndex = Array.from(sections).findIndex(section => section.id === currentSection);
+                
+                if (currentSection) {
+                    // Update navigation
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === `#${currentSection}`) {
+                            item.classList.add('active');
+                        }
+                    });
+                    
+                    // Update progress bar
+                    const progress = (window.scrollY) / (document.body.scrollHeight - window.innerHeight);
+                    progressBar.style.width = `${progress * 100}%`;
+                    
+                    // Update scroll dots
+                    scrollDots.forEach(dot => {
+                        dot.classList.remove('active');
+                        if (dot.getAttribute('data-section') === currentSection) {
+                            dot.classList.add('active');
+                        }
+                    });
+                    
+                    // Show/hide back to top button
+                    if (window.scrollY > 300) {
+                        backToTop.classList.add('visible');
+                    } else {
+                        backToTop.classList.remove('visible');
+                    }
+                }
+            }
+            
+            // Scroll event listener
+            window.addEventListener('scroll', updateUI);
+            
+            // Navigation click handler
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Scroll dots click handler
+            scrollDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-section');
+                    const targetSection = document.getElementById(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Back to top button click handler
+            backToTop.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Initialize
+            updateUI();
+        });
+    </script>
+</body>
+</html>
