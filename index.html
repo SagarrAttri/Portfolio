@@ -635,7 +635,7 @@
                 <label for="message">Message</label>
                 <textarea id="message" class="form-control" placeholder="Tell me about your ideas or opportunities..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
+            <button type="button" class="btn btn-primary">Send Message</button>
         </div>
         
         <div style="margin-top: 40px;">
@@ -648,6 +648,49 @@
     </section>
     
     <script>
+          document.addEventListener("DOMContentLoaded", function () {
+    console.log("JavaScript Loaded ✅");
+
+    // Event delegation for dynamically loaded elements
+    document.body.addEventListener("click", function (event) {
+      if (event.target.classList.contains("btn-primary")) {
+        event.preventDefault(); // Form submit hone se rokne ke liye
+        console.log("Submit Button Clicked ✅");
+
+        let formData = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value
+        };
+
+        console.log("Form Data:", formData);
+
+        fetch("https://script.google.com/macros/s/AKfycbxfZRCC9RazhmdTymblra7jtNcEgcIGIsQVOOcmo536kKy68tpt-pQ2bz_Mzqk8jJZTtw/exec", { // Yaha apna Google Apps Script Web App URL paste kar
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(formData),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => response.text())
+        .then(data => {
+          console.log("Server Response:", data);
+          alert("Message Sent Successfully! ✅");
+
+          // Form clear karne ke liye
+          document.getElementById("name").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("message").value = "";
+        })
+        .catch(error => {
+          alert("Error sending message. ❌");
+          console.error("Error:", error);
+        });
+      }
+    });
+  });
+
         document.addEventListener('DOMContentLoaded', function() {
             // Elements
             const navItems = document.querySelectorAll('.nav-item');
