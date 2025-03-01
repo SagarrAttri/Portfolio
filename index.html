@@ -153,6 +153,10 @@
             background: #212529;
             color: white;
         }
+        .submit-button {
+            background: #212529;
+            color: white;
+        }
         
         .btn-primary:hover {
             background: #343a40;
@@ -547,7 +551,7 @@
             <div class="project-card">
                 <div class="project-tag">Tech Community</div>
                 <div class="project-image">
-<!--                     <img src="/api/placeholder/400/320" alt="Oofy Programmers"> -->
+                    <!-- <img src="" alt=""> -->
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Oofy Programmers</h3>
@@ -558,7 +562,7 @@
             <div class="project-card">
                 <div class="project-tag">Web Development</div>
                 <div class="project-image">
-<!--                     <img src="/api/placeholder/400/320" alt="AI-Generated Websites"> -->
+                    <!-- <img src="/api/placeholder/400/320" alt="AI-Generated Websites"> -->
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">AI-Generated Websites</h3>
@@ -569,7 +573,7 @@
             <div class="project-card">
                 <div class="project-tag">Web Application</div>
                 <div class="project-image">
-<!--                     <img src="/api/placeholder/400/320" alt="Anonymous Chat Platform"> -->
+                    <!-- <img src="/api/placeholder/400/320" alt="Anonymous Chat Platform"> -->
                 </div>
                 <div class="project-content">
                     <h3 class="project-title">Anonymous Chat Platform</h3>
@@ -585,7 +589,7 @@
         <h2 class="section-title">About Me</h2>
         <div class="about-container">
             <div class="about-image">
-<!--                 <img src="/api/placeholder/400/600" alt="Sagar Attri"> -->
+                <!-- <img src="/api/placeholder/400/600" alt="Sagar Attri"> -->
             </div>
             <div class="about-content">
                 <p>I'm a first-year Computer Science Engineering student at Greater Noida Institute of Technology with a passion for startups and exploring new technologies.</p>
@@ -635,10 +639,10 @@
                 <label for="message">Message</label>
                 <textarea id="message" class="form-control" placeholder="Tell me about your ideas or opportunities..."></textarea>
             </div>
-            <button type="button" class="btn btn-primary">Send Message</button>
+            <button type="button" class="btn submit-button">Send Message</button>
         </div>
         
-<!--         <div style="margin-top: 40px;">
+        <!-- <div style="margin-top: 40px;">
             <h3 style="margin-bottom: 15px;">Contact Information</h3>
             <p><strong>Phone:</strong> 9914972793</p>
             <p><strong>Email:</strong> attri.sagar07@gmail.com</p>
@@ -648,13 +652,14 @@
     </section>
     
     <script>
-          document.addEventListener("DOMContentLoaded", function () {
+ 
+  document.addEventListener("DOMContentLoaded", function () {
     console.log("JavaScript Loaded ✅");
 
     // Event delegation for dynamically loaded elements
     document.body.addEventListener("click", function (event) {
-      if (event.target.classList.contains("btn-primary")) {
-        event.preventDefault(); // Form submit hone se rokne ke liye
+      if (event.target.classList.contains("submit-button")) {
+        event.preventDefault(); 
         console.log("Submit Button Clicked ✅");
 
         let formData = {
@@ -665,7 +670,7 @@
 
         console.log("Form Data:", formData);
 
-        fetch("https://script.google.com/macros/s/AKfycbxfZRCC9RazhmdTymblra7jtNcEgcIGIsQVOOcmo536kKy68tpt-pQ2bz_Mzqk8jJZTtw/exec", { // Yaha apna Google Apps Script Web App URL paste kar
+        fetch("https://script.google.com/macros/s/AKfycbxfZRCC9RazhmdTymblra7jtNcEgcIGIsQVOOcmo536kKy68tpt-pQ2bz_Mzqk8jJZTtw/exec", { 
           method: "POST",
           mode: "no-cors",
           body: JSON.stringify(formData),
@@ -678,7 +683,6 @@
           console.log("Server Response:", data);
           alert("Message Sent Successfully! ✅");
 
-          // Form clear karne ke liye
           document.getElementById("name").value = "";
           document.getElementById("email").value = "";
           document.getElementById("message").value = "";
@@ -690,6 +694,8 @@
       }
     });
   });
+
+
 
         document.addEventListener('DOMContentLoaded', function() {
             // Elements
